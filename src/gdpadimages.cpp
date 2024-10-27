@@ -84,8 +84,6 @@ GDPadImages::GDPadTexture* GDPadImages::load_texture(std::string file_name) {
         my_image_height + .0f
     };
 
-
-
     return new GDPadTexture({
         .out_texture=my_image_texture, 
         .size=res_size

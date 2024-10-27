@@ -1,8 +1,11 @@
 #include "gdpadui.hpp"
+#include "shared.hpp"
+#include <imgui.h>
+
 
 void GDPadUI::centered_title(std::string text, float text_y)
 {
-    float win_width = ImGui::GetWindowSize().x;
+    float win_width = GDPadShared::mainFrameSize.x;
     ImGui::PushFont(GDPadShared::fonts["title"]);
     float text_width = ImGui::CalcTextSize(text.c_str()).x;
 
@@ -16,7 +19,7 @@ void GDPadUI::centered_title(std::string text, float text_y)
     ImGui::BeginChild(text.c_str());
 
     ImGui::SetWindowPos({
-        text_indentation, text_y
+        text_indentation + GDPadShared::mainFramePos.x, text_y
     });
 
     ImGui::TextWrapped("%s", text.c_str());
@@ -33,7 +36,7 @@ void GDPadUI::draw_centered_image() {
     ImGui::SetNextWindowPos(
         {
             GDPadShared::windowSize.x / 2 - gdpad->size.x / 2, 
-            GDPadShared::windowSize.y / 2 - gdpad->size.y / 2 - 50
+            GDPadShared::windowSize.y / 2 - gdpad->size.y / 2 - 70
         }
     );
 
@@ -65,14 +68,18 @@ void GDPadUI::help_marker(const char* desc)
 
 
 void GDPadUI::draw_bottom_ui() {
-    ImGui::SetNextWindowPos(
+    ImGui::BeginChild("gdpad_bottom");
+
+    ImGui::SetWindowPos(
         {
-            padding,
-            GDPadShared::windowSize.y - 260.f
+            GDPadShared::mainFramePos.x + padding,
+            GDPadShared::mainFramePos.y + GDPadShared::mainFrameSize.y - 248.f
         }
     );
 
-    ImGui::BeginChild("gdpad_bottom");
+    ImGui::SetWindowSize({
+        GDPadShared::mainFrameSize.x, 250
+    });
 
     GDPadSettingsUI::draw();
     
@@ -90,15 +97,24 @@ void GDPadUI::draw_main_window() {
     ); 
     {
         ImGui::SetWindowPos({
-            padding, padding
+            (GDPadShared::windowSize.x - GDPadShared::minWindowSize.x + padding) * 0.5f,
+            (GDPadShared::windowSize.y - GDPadShared::minWindowSize.y + padding) * 0.5f
         });
 
-        ImGui::SetWindowSize({
-            GDPadShared::windowSize.x - padding,
-            GDPadShared::windowSize.y - padding
-        });
+        ImGui::SetWindowSize(
+            {
+                GDPadShared::minWindowSize.x - padding, 
+                GDPadShared::minWindowSize.y - padding
+            }
+        );
 
-        centered_title(fmt::format("{}  Настройки GDPad", ICON_FA_GEARS), 25);
+        GDPadShared::mainFramePos = ImGui::GetWindowPos();
+        GDPadShared::mainFrameSize = ImGui::GetWindowSize();
+
+        centered_title(
+            fmt::format("{}  Настройки GDPad", ICON_FA_GEARS), 
+            GDPadShared::mainFramePos.y + 25
+        );
         draw_centered_image();
         draw_bottom_ui();
     }

@@ -8,6 +8,10 @@ namespace GDPadShared {
     inline GLFWwindow* window;
     const ImVec2 minWindowSize = { 680, 750 };
     inline ImVec2 windowSize;
+    
+    inline ImVec2 mainFramePos;
+    inline ImVec2 mainFrameSize;
+
     inline std::map<std::string, GDPadImages::GDPadTexture*> textures = {};
     inline std::map<std::string, ImFont*> fonts = {};
     inline int bitrate = 8000;

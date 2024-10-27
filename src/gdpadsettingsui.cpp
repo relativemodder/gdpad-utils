@@ -39,6 +39,14 @@ void GDPadSettingsUI::draw() {
 
             {
                 ImGui::Text(" " ICON_FA_LIGHTBULB "  Цвет подсветки ");
+                
+                GDPadUI::help_marker(
+                    fmt::format(
+                        "{}\n{}", 
+                        "   Много распинаться не приходится,",
+                        "для закрытия окна нажмите ESC."
+                    ).c_str()
+                );
 
                 ImGui::SetNextItemWidth(400);
 
