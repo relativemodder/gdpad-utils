@@ -7,5 +7,6 @@
 #include <gdpadui.hpp>
 
 namespace GDPadSettingsUI {
+    void draw_first_tab();
     void draw();
 }
