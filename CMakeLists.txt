@@ -18,7 +18,9 @@ add_executable(gdpadtool ${PROJ_SRC})
 
 
 target_include_directories(gdpadtool PUBLIC 
-    include 
+    include
+    include/fontawesome
+    include/stb
     ${OPENGL_INCLUDE_DIR}
 )
 
