@@ -1,12 +1,6 @@
 #include "gdpadui.hpp"
-#include "gdpadsettingsui.hpp"
-#include "shared.hpp"
-#include <fmt/base.h>
-#include <imgui.h>
-#include <iostream>
 
-
-void GDPadUI::CenteredTitle(std::string text, float text_y)
+void GDPadUI::centered_title(std::string text, float text_y)
 {
     float win_width = ImGui::GetWindowSize().x;
     ImGui::PushFont(GDPadShared::fonts["title"]);
@@ -56,7 +50,7 @@ void GDPadUI::draw_centered_image() {
 }
 
 
-void GDPadUI::HelpMarker(const char* desc)
+void GDPadUI::help_marker(const char* desc)
 {
     ImGui::SameLine(0 ,0);
     ImGui::TextDisabled("(?)");
@@ -80,7 +74,7 @@ void GDPadUI::draw_bottom_ui() {
 
     ImGui::BeginChild("gdpad_bottom");
 
-    GDPadSettingsUI::DrawUI();
+    GDPadSettingsUI::draw();
     
     ImGui::EndChild();
 }
@@ -104,7 +98,7 @@ void GDPadUI::draw_main_window() {
             GDPadShared::windowSize.y - padding
         });
 
-        CenteredTitle(fmt::format("{}  Настройки GDPad", ICON_FA_GEARS), 25);
+        centered_title(fmt::format("{}  Настройки GDPad", ICON_FA_GEARS), 25);
         draw_centered_image();
         draw_bottom_ui();
     }

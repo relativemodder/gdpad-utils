@@ -7,5 +7,5 @@
 #include <gdpadui.hpp>
 
 namespace GDPadSettingsUI {
-    void DrawUI();
+    void draw();
 }

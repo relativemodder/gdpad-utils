@@ -1,7 +1,8 @@
+#include "gdpadui.hpp"
 #include <gdpadsettingsui.hpp>
 
 
-void GDPadSettingsUI::DrawUI() {
+void GDPadSettingsUI::draw() {
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 10));
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(20, 20));
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5);
@@ -12,7 +13,7 @@ void GDPadSettingsUI::DrawUI() {
             {
                 ImGui::Text(" " ICON_FA_BOLT_LIGHTNING "  Частота опроса ");
 
-                GDPadUI::HelpMarker(
+                GDPadUI::help_marker(
                     fmt::format(
                         "{}\n{}\n\n{}\n{}\n{}", 
                         "   Частота опроса - это то, насколько быстро общаются",
