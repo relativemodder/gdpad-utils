@@ -1,0 +1,16 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "gdpadtool",
+    "dependencies": [
+        "fmt",
+        "glfw3",
+        "opengl",
+        {
+            "name": "imgui",
+            "features": [
+                "glfw-binding",
+                "opengl3-binding"
+            ]
+        }
+    ]
+}
