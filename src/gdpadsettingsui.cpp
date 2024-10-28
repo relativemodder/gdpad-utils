@@ -1,6 +1,5 @@
-#include "gdpadui.hpp"
+#include <gdpadui.hpp>
 #include <gdpadsettingsui.hpp>
-
 
 void GDPadSettingsUI::draw_first_tab() {
     {
@@ -20,14 +19,15 @@ void GDPadSettingsUI::draw_first_tab() {
         int buffer = GDPadShared::bitrate / 1000;
 
         ImGui::SetNextItemWidth(400);
-        ImGui::SliderInt("##bitrate", &buffer, 1, 8, "%d000");
-        
-        GDPadShared::bitrate = buffer * 1000;
+        if (ImGui::SliderInt("##bitrate", &buffer, 1, 8, "%d000")) {
+            GDPadShared::bitrate = buffer * 1000;
+        }
 
         ImGui::SameLine(.0f, -1.f);
-        ImGui::Button("Применить", { 200, 0 });
+        if (ImGui::Button("Применить", { 200, 0 })) {
+            // Apply changes logic here
+        }
     }
-
 
     {
         ImGui::Text(" " ICON_FA_LIGHTBULB "  Цвет подсветки ");
@@ -41,10 +41,14 @@ void GDPadSettingsUI::draw_first_tab() {
         );
 
         ImGui::SetNextItemWidth(400);
-        ImGui::ColorEdit3("##light", GDPadShared::gdpadLight);
+        if (ImGui::ColorEdit3("##light", GDPadShared::gdpadLight)) {
+            // Color changed logic here
+        }
 
         ImGui::SameLine(.0f, -1.f);
-        ImGui::Button("Применить", { 200, 0 });
+        if (ImGui::Button("Применить", { 200, 0 })) {
+            // Apply changes logic here
+        }
     }
 }
 
@@ -61,6 +65,7 @@ void GDPadSettingsUI::draw() {
         }
 
         if (ImGui::BeginTabItem(" Дополнительно ")) {
+            // Additional settings logic here
             ImGui::EndTabItem();
         }
 

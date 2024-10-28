@@ -14,7 +14,8 @@ bool GDPadImages::load_texture_from_memory(
 ) {
     int image_width = 0;
     int image_height = 0;
-    unsigned char* image_data = stbi_load_from_memory((const unsigned char*)data, (int)data_size, &image_width, &image_height, NULL, 4);
+    int image_channels = 0;
+    unsigned char* image_data = stbi_load_from_memory((const unsigned char*)data, (int)data_size, &image_width, &image_height, &image_channels, 4);
     if (image_data == NULL)
         return false;
 
@@ -39,35 +40,48 @@ bool GDPadImages::load_texture_from_memory(
     return true;
 }
 
-
 bool GDPadImages::load_texture_from_file(
     const char* file_name, 
     GLuint* out_texture, 
     int* out_width, 
     int* out_height
 ) {
-    FILE* f = fopen(file_name, "rb");
-    if (f == NULL)
+    FILE* file = fopen(file_name, "rb");
+    
+    if (file == NULL) {
         return false;
-    fseek(f, 0, SEEK_END);
-    size_t file_size = (size_t)ftell(f);
-    if (file_size == -1)
+    }
+
+    fseek(file, 0, SEEK_END);
+    size_t file_size = ftell(file);
+
+    if (file_size == -1) {
+        fclose(file);
         return false;
-    fseek(f, 0, SEEK_SET);
+    }
+
+    fseek(file, 0, SEEK_SET);
     void* file_data = IM_ALLOC(file_size);
-    fread(file_data, 1, file_size, f);
+
+    if (fread(file_data, 1, file_size, file) != file_size) {
+        IM_FREE(file_data);
+        fclose(file);
+        return false;
+    }
+
     bool ret = load_texture_from_memory(file_data, file_size, out_texture, out_width, out_height);
     IM_FREE(file_data);
+    fclose(file);
+
     return ret;
 }
-
 
 GDPadImages::GDPadTexture* GDPadImages::load_texture(std::string file_name) {
     int my_image_width = 0;
     int my_image_height = 0;
     GLuint my_image_texture = 0;
     bool ret = GDPadImages::load_texture_from_file(
-        "resources/images/gdpad.png", 
+        file_name.c_str(), 
         &my_image_texture, 
         &my_image_width, 
         &my_image_height
