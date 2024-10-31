@@ -6,7 +6,7 @@
 
 namespace GDPadShared {
     inline GLFWwindow* window;
-    const ImVec2 minWindowSize = { 680, 750 };
+    const ImVec2 minWindowSize = { 680, 650 };
     inline ImVec2 windowSize;
     
     inline ImVec2 mainFramePos;
