@@ -20,34 +20,43 @@ include(./vcpkg/scripts/buildsystems/vcpkg.cmake)
 set(CXX_STANDARD 20)
 set(CXX_STANDARD_REQUIRED ON)
 
+find_package(fmt CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
 
-
 file(GLOB_RECURSE PROJ_SRC src/*.cpp)
-
 
 add_executable(gdpadtool ${PROJ_SRC})
 
-
 target_link_options(gdpadtool PRIVATE -static-libgcc -static-libstdc++)
+
+if (NOT "$ENV{FLATPAK_PATH}" STREQUAL "") 
+    add_compile_definitions(FOR_FLATPAK)
+    add_compile_definitions(RESOURCES_PREROOT="/app/share/")
+    target_link_directories(gdpadtool PRIVATE "$ENV{FLATPAK_PATH}/runtime/org.freedesktop.Sdk/x86_64/23.08/active/files/lib")
+    set(PLATFORM_GL_LIBS 
+        "libOpenGL.so"
+        "libGLX.so"
+    ) # holy fucking shit
+    # set(PLATFORM_GL_LIBS OpenGL::GL) # embed
+else()
+    set(PLATFORM_GL_LIBS OpenGL::GL) # embed
+    add_compile_definitions(RESOURCES_PREROOT="./")
+endif()
 
 
 target_include_directories(gdpadtool PUBLIC 
     include
     include/fontawesome
     include/stb
-    ${OPENGL_INCLUDE_DIR}
 )
 
 target_link_libraries(gdpadtool
-    gcc
-    stdc++
     imgui::imgui 
     glfw
-    fmt
-    ${OPENGL_LIBRARIES}
+    fmt::fmt
+    ${PLATFORM_GL_LIBS}
 )
 
 add_custom_command(TARGET gdpadtool 

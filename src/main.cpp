@@ -25,15 +25,20 @@ int main(int argc, char** argv)
 {
     try
     {
+#ifdef FOR_FLATPAK
+#else
         std::filesystem::current_path(std::filesystem::path(argv[0]).parent_path());
         fmt::println("Now current dir is: {}", std::filesystem::current_path().string());
-
-        if (!glfwInit())
-        {
-            throw std::runtime_error("Failed to initialize GLFW");
-        }
+#endif
 
         glfwSetErrorCallback(glfw_error_callback);
+
+        auto init_result = glfwInit();
+
+        if (!init_result)
+        {
+            throw std::runtime_error("Failed to initialize GLFW:  " + std::to_string(init_result));
+        }
 
         // Decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)

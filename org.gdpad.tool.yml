@@ -1,0 +1,29 @@
+id: org.gdpad.tool
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+command: org.gdpad.tool
+modules:
+  - name: org.gdpad.tool
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 gdpadtool /app/bin/org.gdpad.tool
+      - install -Dm755 Roboto-Black.ttf /app/share/resources/fonts/Roboto-Black.ttf
+      - install -Dm755 Roboto-Regular.ttf /app/share/resources/fonts/Roboto-Regular.ttf
+      - install -Dm755 gdpad.png /app/share/resources/images/gdpad.png
+    sources:
+      - type: file
+        path: ./build/gdpadtool
+      - type: file
+        path: ./build/resources/fonts/Roboto-Black.ttf
+      - type: file
+        path: ./build/resources/fonts/Roboto-Regular.ttf
+      - type: file
+        path: ./build/resources/images/gdpad.png
+add-extensions:
+  org.freedesktop.Platform.GL:
+    version: '23.08'
+finish-args:
+  - --device=all
+  - --socket=x11
+  - --share=network

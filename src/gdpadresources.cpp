@@ -4,7 +4,7 @@
 #include <gdpadresources.hpp>
 
 void GDPadResources::load_textures() {
-    GDPAD_LOAD_RESOURCE_OR_DIE("gdpad", "resources/images/gdpad.png");
+    GDPAD_LOAD_RESOURCE_OR_DIE("gdpad",  RESOURCES_PREROOT "resources/images/gdpad.png");
 }
 
 void GDPadResources::load_fonts() {
@@ -17,7 +17,7 @@ void GDPadResources::load_fonts() {
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 
     GDPadShared::fonts["regular"] = io.Fonts->AddFontFromFileTTF(
-        "resources/fonts/Roboto-Regular.ttf", 
+        RESOURCES_PREROOT "resources/fonts/Roboto-Regular.ttf",
         19.0f,  
         &font_config, 
         io.Fonts->GetGlyphRangesCyrillic()
@@ -36,7 +36,7 @@ void GDPadResources::load_fonts() {
     title_icons_config.MergeMode = true;
 
     GDPadShared::fonts["title"] = io.Fonts->AddFontFromFileTTF(
-        "resources/fonts/Roboto-Black.ttf", 
+        RESOURCES_PREROOT "resources/fonts/Roboto-Black.ttf",
         40.0f,  
         &title_font_config, 
         io.Fonts->GetGlyphRangesCyrillic()
