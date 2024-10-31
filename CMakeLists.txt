@@ -49,15 +49,17 @@ if (NOT "${FLATPAK_PATH}" STREQUAL "")
     add_compile_definitions(FOR_FLATPAK)
     add_compile_definitions(RESOURCES_PREROOT="/app/share/")
     target_link_directories(gdpadtool PRIVATE "${FLATPAK_PATH}/runtime/org.freedesktop.Sdk/x86_64/23.08/active/files/lib")
-    set(PLATFORM_GL_LIBS 
-        "libOpenGL.so"
-        "libGLX.so"
-    ) # holy fucking shit
+    # set(PLATFORM_GL_LIBS 
+    #     "libOpenGL.so"
+    #     "libGLX.so"
+    # ) # holy fucking shit
     # set(PLATFORM_GL_LIBS OpenGL::GL) # embed
 else()
-    set(PLATFORM_GL_LIBS OpenGL::GL) # embed
     add_compile_definitions(RESOURCES_PREROOT="./")
 endif()
+
+
+set(PLATFORM_GL_LIBS OpenGL::GL) # embed
 
 
 target_include_directories(gdpadtool PUBLIC 
